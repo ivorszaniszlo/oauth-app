@@ -62,8 +62,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
+/*
+ * ensureAuthenticated Callback Function
+ */
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect("/login");
+  }
+}
 
 /*
  * Routes
@@ -102,11 +110,3 @@ app.get('/auth/github/callback',
  * Listener
 */
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
-
-
-const ensureAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next()
-  } 
-  res.redirect('/redirect');
-} 
